@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "MovieList";
+}
+
+<h2>MovieList</h2>
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+
+
+
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="row" style="margin-bottom:5px;">
+                    <div class="col-lg-5" style="font:bold;font-size:12px;"><label>Movie List</label></div>
+                    <div class="col-lg-7">
+                        @Html.TextBox("MovieListname", null, new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="row" style="margin-bottom:5px;">
+                    <div class="col-lg-12 text-center">
+                        <br />
+                        <button class="btn btn-primary" id="btnsave" type="submit"><i class="glyphicon glyphicon-save"></i> Save </button>
+                        <button class="btn btn-danger" id="btncancle" type="submit"><i class="glyphicon glyphicon-circle-arrow-left"></i> Cancle </button>
+
+                        <br />
+                        <span>@ViewBag.Message</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+
+
+
+    </div>
+    <div class="col-lg-3"></div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+
+        </div>
+    </div>

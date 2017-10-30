@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MovieModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Movie.dbo.Movie' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="PublishDate" />
+          </Key>
+          <Property Name="Movie_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Movie_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Language" Type="varchar" MaxLength="50" />
+          <Property Name="PublishDate" Type="datetime" Nullable="false" />
+          <Property Name="YearofRelease" Type="varchar" MaxLength="50" />
+          <Property Name="MoviePoster" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Movie_List">
+          <Key>
+            <PropertyRef Name="MovieListId" />
+          </Key>
+          <Property Name="MovieListId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MovieListName" Type="varchar" MaxLength="50" />
+          <Property Name="UserId" Type="varchar" MaxLength="50" />
+          <Property Name="DateCreated" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Movie_Rating">
+          <Key>
+            <PropertyRef Name="MovieRatingId" />
+          </Key>
+          <Property Name="MovieRatingId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Rating_date" Type="varchar" MaxLength="50" />
+          <Property Name="Movie_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Movielist_Id" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="User_Id" />
+          </Key>
+          <Property Name="User_Id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="User_Email" Type="varchar" MaxLength="50" />
+          <Property Name="Isactive" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="MovieModelStoreContainer">
+          <EntitySet Name="Movie_List" EntityType="Self.Movie_List" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movie_Rating" EntityType="Self.Movie_Rating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movie" EntityType="Self.Movie" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Movie].[Movie_Id] AS [Movie_Id], 
+    [Movie].[Movie_Name] AS [Movie_Name], 
+    [Movie].[Language] AS [Language], 
+    [Movie].[PublishDate] AS [PublishDate], 
+    [Movie].[YearofRelease] AS [YearofRelease], 
+    [Movie].[MoviePoster] AS [MoviePoster]
+    FROM [dbo].[Movie] AS [Movie]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MovieModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Movie_List">
+          <Key>
+            <PropertyRef Name="MovieListId" />
+          </Key>
+          <Property Name="MovieListId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MovieListName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Movie_Rating">
+          <Key>
+            <PropertyRef Name="MovieRatingId" />
+          </Key>
+          <Property Name="MovieRatingId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rating_date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Movie_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Movielist_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="User_Id" />
+          </Key>
+          <Property Name="User_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="User_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Isactive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="PublishDate" />
+          </Key>
+          <Property Name="Movie_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Movie_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Language" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PublishDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="YearofRelease" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MoviePoster" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="MovieEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Movie_List" EntityType="Self.Movie_List" />
+          <EntitySet Name="Movie_Rating" EntityType="Self.Movie_Rating" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Movies" EntityType="Self.Movie" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MovieModelStoreContainer" CdmEntityContainer="MovieEntities1">
+          <EntitySetMapping Name="Movie_List">
+            <EntityTypeMapping TypeName="MovieModel.Movie_List">
+              <MappingFragment StoreEntitySet="Movie_List">
+                <ScalarProperty Name="MovieListId" ColumnName="MovieListId" />
+                <ScalarProperty Name="MovieListName" ColumnName="MovieListName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movie_Rating">
+            <EntityTypeMapping TypeName="MovieModel.Movie_Rating">
+              <MappingFragment StoreEntitySet="Movie_Rating">
+                <ScalarProperty Name="MovieRatingId" ColumnName="MovieRatingId" />
+                <ScalarProperty Name="Rating_date" ColumnName="Rating_date" />
+                <ScalarProperty Name="Movie_Id" ColumnName="Movie_Id" />
+                <ScalarProperty Name="Movielist_Id" ColumnName="Movielist_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MovieModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="User_Email" ColumnName="User_Email" />
+                <ScalarProperty Name="Isactive" ColumnName="Isactive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="MovieModel.Movie">
+              <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="Movie_Id" ColumnName="Movie_Id" />
+                <ScalarProperty Name="Movie_Name" ColumnName="Movie_Name" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="PublishDate" ColumnName="PublishDate" />
+                <ScalarProperty Name="YearofRelease" ColumnName="YearofRelease" />
+                <ScalarProperty Name="MoviePoster" ColumnName="MoviePoster" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

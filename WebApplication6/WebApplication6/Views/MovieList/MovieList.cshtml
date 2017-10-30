@@ -1,0 +1,52 @@
+﻿@model WebApplication6.Models.mdlMovieListcs
+
+@{
+    ViewBag.Title = "MovieList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6 well" style="margin-left:-280px;">
+
+        @using (Html.BeginForm())
+            {
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h3><i class="glyphicon glyphicon-list" ></i>&nbsp; Movie List</h3>
+                    <hr class="m-t-2 m-b-2" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="row">
+                        <div class="col-lg-4 text-right" style="font-weight:bold;font-size:18px;">
+                            <span> Movie List Name </span>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="md-form">
+                                @Html.TextBoxFor(x => x.MovieListName, null, new { @class = "form-control", placeholder = "Movie List Name *" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br /><br />
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <button id="submitSave" name="Command" value="Save" type="submit" class="btn btn-lg btn-primary"><i class="glyphicon glyphicon-log-in"></i>&nbsp;Save</button>
+                        <button id="submitClear" name="Command" value="Clear" class="btn btn-lg btn-danger"><i class="glyphicon glyphicon-remove"></i>&nbsp;Clear </button>
+                    </div>
+                </div>
+                <br /><br />
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                    <span>@ViewBag.Message</span>
+                    </div>
+                </div>
+        }
+    </div>
+    <div class="col-lg-3"></div>
+</div>

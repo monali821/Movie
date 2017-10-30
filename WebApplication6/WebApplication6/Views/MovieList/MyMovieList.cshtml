@@ -1,0 +1,29 @@
+﻿@model WebApplication6.Models.mdlMovieListTrans
+@{
+    ViewBag.Title = "MyMovieList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8 well" style="margin-left:-280px;">
+        <table width="100%" style="border:solid;">
+            <tr>
+                <th style="font-size:20px;font-weight:bold">Select </th>
+                <th style="font-size:20px;font-weight:bold">Movie List Name </th>
+                <th style="font-size:20px;font-weight:bold">Rating  </th>
+            </tr>
+            @foreach (var obj in Model.objMyList)
+            {
+                <tr>
+                    <td width="5%"><a href="@Url.Action("ManageMovieList","MovieList", new { id = @obj.MovieListId})">Select </a> </td>
+                    <td width="20%">@obj.MovieListName </td>
+                    <td width="5%">@obj.rating  </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+

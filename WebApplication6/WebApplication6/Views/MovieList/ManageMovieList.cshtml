@@ -1,0 +1,260 @@
+﻿@model WebApplication6.Models.mdlMovieListcs
+
+@{
+    ViewBag.Title = "ManageMovieList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.2.1.min (1).js"></script>
+
+<script src="~/Scripts/Sort/jquery-latest.js"></script>
+<script src="~/Scripts/Sort/jquery.tablesorter.js"></script>
+
+<style>
+    th.header {
+        background-image: url("../../../../Scripts/tablesort/img/bg.gif");
+        cursor: pointer;
+        font-weight: bold;
+        background-repeat: no-repeat;
+        background-position: center left;
+        padding-left: 20px;
+        border-right: 1px solid #dad9c7;
+        margin-left: -1px;
+        padding-left: 20px;
+    }
+
+    th.headerSortDown {
+        background-image: url("../../../../Scripts/tablesort/img/desc.gif");
+        background-color: transparent;
+    }
+
+    th.headerSortUp {
+        background-image: url("../../../../Scripts/tablesort/img/asc.gif");
+        background-color: transparent;
+    }
+    input, select, textarea {
+        max-width: 700px;
+    }
+</style>
+
+
+
+<div class="row"style="margin-top:50px;padding-bottom:40px;">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6 well" style="margin-left:-280px;">
+        <h2 style="font-weight:bold;font-size:30px;">ManageMovieList</h2>
+        <br />
+        <br />
+        @using (Html.BeginForm())
+        {
+
+        <div class="row well">
+            <div class="col-lg-12 text-center">
+                <div class="row">
+                    <div class="col-lg-3 text-right"style="font-weight:bold;font-size:18px;">
+                        <span> Movie List </span>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="md-form">
+                            <label>@Model.MovieListName</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+        }
+        <br /><br />
+
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+<div class="row" style="background-color:antiquewhite;margin-bottom:10px;" >
+    <div class="col-lg-2" style="font-weight:bold;font-size:18px;margin-top:10px;">Seach for Title</div>
+    <div class="col-lg-8">
+        <input type="text" id="txtTitleSearch" class="form-control" style="margin-top:10px;"/>
+
+    </div>
+    <div class="col-lg-2" style="margin-left:490px;">
+        <a class="btn btn-primary" id="btnSearchTitle" style="margin-top:-53px;margin-left:420px;">Search</a>
+    </div>
+    
+</div>
+<div class="row" style="background-color:cornsilk;">
+    <div class="col-lg-12" id="tblLibrary">
+
+    </div>
+</div>
+<div class="row well" style="margin-top:20px;">
+    <div class="col-lg-2">
+
+    </div>
+    <div class="col-lg-2" style="margin-left:-200px;">
+        <label style="font-weight:bold;font-size:18px;">Add Movie In List</label>
+    </div>
+    <div class="col-lg-3">
+        <select id="ddlMovie" class="form-control"></select>
+    </div>
+    <div class="col-lg-2">
+        <button id="btnAdd" class="btn btn-primary"> Add </button>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        SearchLibrary();
+        addcomobox();
+
+        $('#btnAdd').click(function () {
+            addmovie();
+        });
+        $('#btnSearchTitle').click(function () {
+            SearchLibrary();
+        });
+
+
+
+        $("#tblLibrary").tablesorter();
+    });
+    function SearchLibrary() {
+
+        var serchText = $('#txtTitleSearch').val();
+        $.ajax({
+            type: 'POST',
+            url: '/Search/Search/',
+            dataType: 'json',
+            data: { id: '@Model.MovieListId', SearchTitle: serchText },
+            success: function (data) {
+                var items = '';
+                var txt = "<table width=\"100%\" class=\"tablesorter\"><thead><tr><th>Poster </th><th>Title </th><th>Publised Date</th><th>Rating  </th><th>Rate<th><th>Delete</th></thead></tr>";
+                txt = txt + "<tbody>";
+                $('#tblLibrary').empty();
+                $.each(data, function (i, item) {
+
+                    txt = txt + "<tr>";
+                    txt = txt + "<td><img src=/Poster/" + item.MoviePoster + " width=50px;height=50px;/></td>";
+                    txt = txt + "<td>" + item.Title + "</td>";
+                    txt = txt + "<td>" + item.YearofRelease + "</td>";
+                    txt = txt + "<td>" + item.Rating + "</td>";
+                    txt = txt + "<td><a class=\"btn btn-success\" onClick=\"rateup('" + item.MoviceId + "')\">Good </a><a class=\"btn btn-danger\" onClick=\"ratedown('" + item.MoviceId + "')\">Bad</a></td>";
+                    txt = txt + "<td><a  class=\"btn btn-danger\" onClick=\"DeleteMovie('" + item.mListId + "')\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;</a></td>";
+                    txt = txt + "</tr>";
+                });
+                txt = txt + "</tbody>";
+                txt = txt + "</table>";
+                $('#tblLibrary').append(txt);
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+    }
+
+    function addcomobox() {
+
+        $.ajax({
+            type: 'POST',
+            url: '/Search/SearchMovie/',
+            dataType: 'json',
+            data: { idd: '@Model.MovieListId' },
+            success: function (data) {
+                var items = '';
+                var options = '';
+                $('#ddlMovie').empty();
+                $.each(data, function (i, item) {
+                    options += '<option value="' + item.Movie_id + '">' + item.title + '</option>';
+                });
+                $('#ddlMovie').append(options);
+            },
+            error: function (ex) {
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+            }
+        });
+    }
+
+    function addmovie() {
+        var MovieId = $('#ddlMovie').val();
+        if (MovieId == '-1')
+            return;
+        $.ajax({
+            type: 'POST',
+            url: '/Search/AddMovie/',
+            dataType: 'json',
+            data: { ListId: '@Model.MovieListId', MovieId: MovieId },
+            success: function (data) {
+                SearchLibrary();
+                addcomobox();
+            },
+            error: function (ex) {
+
+                SearchLibrary();
+                addcomobox();
+            }
+        });
+    }
+
+    function DeleteMovie(listid) {
+        $.ajax({
+            type: 'POST',
+            url: '/Search/DeleteMoive/',
+            dataType: 'json',
+            data: { ListId: listid },
+            success: function (data) {
+                SearchLibrary();
+                addcomobox();
+            },
+            error: function (ex) {
+
+                SearchLibrary();
+                addcomobox();
+            }
+        });
+    }
+
+    function rateup(MovieId) {
+        $.ajax({
+            type: 'POST',
+            url: '/Search/rateup/',
+            dataType: 'json',
+            data: { MovieId: MovieId },
+            success: function (data) {
+                SearchLibrary();
+            },
+            error: function (ex) {
+
+                SearchLibrary();
+                addcomobox();
+            }
+        });
+    }
+
+
+    function ratedown(MovieId) {
+        $.ajax({
+            type: 'POST',
+            url: '/Search/ratedown/',
+            dataType: 'json',
+            data: { MovieId: MovieId },
+            success: function (data) {
+                SearchLibrary();
+            },
+            error: function (ex) {
+
+                SearchLibrary();
+                addcomobox();
+            }
+        });
+    }
+</script>
